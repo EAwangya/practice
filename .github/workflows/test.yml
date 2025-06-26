@@ -2,17 +2,15 @@ name: Practice for github actions
 on: [push]
 jobs:
   test:
-  run-on: ubuntu-latest
-  step:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Install node package
-      uses: actions/setup-node@v4
-      with:
-        - node-version: 18
-    - name: Run lint test
-      run: npm run lint
-    - name: Run test
-      run: npm test
-    - name: Run build
-      run: npm build  
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Run lint test
+        run: npm run lint
+      - name: Run test
+        run: npm test
+      - name: Run build
+        run: npm build  
