@@ -1,18 +1,18 @@
 name: Practice for github actions
-on: [push]
+on: workflow_dispatch
 jobs:
-  test:
+  generate-message:
+    runs-on: ubuntu-latest
+    outputs:
+      daily-message: ${{ steps.set-msg.outputs.daily-message }}
+    steps:
+      - id: set-msg
+        run: echo "daily-message=Hello from the scheduler!" >> $GITHUB_OUTPUT
+
+  print-message:
+    needs: generate-message
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm ci
-      - name: Run lint test
-        run: npm run lint
-      - name: Run test
-        run: npm run test
-      - name: Run build
-        run: npm run build  
+      - name: Display output from previous job
+        run: |
+          echo "The message is: '${{ needs.generate-message.outputs.daily-message }}'"
